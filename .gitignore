@@ -1,0 +1,33 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.Zone.Identifier
+test-results/
+playwright-report/
+*.tsbuildinfo
+.mypy_cache/
+# Local assistant/account configuration and Windows download metadata
+.agents/
+.codex/
+.aws/
+*:Zone.Identifier
+# Local PostgreSQL runtime, data, credentials, backups and logs
+.local*/
+# Local deployment bundle (may include private configuration)
+/server.tar.gz
+
+/monitorServer.tar.gz
+
+# Local SSH credentials and database backup artifacts
+.ssh/
+*.dump
+*.backup
+*.sql.gz
+*.sql.bz2

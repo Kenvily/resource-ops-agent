@@ -1,0 +1,1566 @@
+{
+  "version": 1,
+  "frozen_split": "scenario combinations, not prompt paraphrases",
+  "cases": [
+    {
+      "id": "case-01",
+      "scenario": "allocation_increase",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 120
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 120
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 50,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "supported",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-02",
+      "scenario": "allocation_decrease",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": -90
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": -90
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 20,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "supported",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-03",
+      "scenario": "capacity_drop",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": -200,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 30,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "supported",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-04",
+      "scenario": "capacity_expand",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 200,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 30,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "supported",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-05",
+      "scenario": "mixed_change",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": -200,
+                "allocated_change_raw": 80
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 80
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 40,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "supported",
+        "business_allocation_change": "supported",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-06",
+      "scenario": "stable",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 20,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-07",
+      "scenario": "unknown_units",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "limited",
+          "data": {
+            "units": {
+              "unit_verified": false
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": -200,
+                "allocated_change_raw": 80
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 80
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 20,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "unknown",
+        "business_allocation_change": "unknown",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-08",
+      "scenario": "uncollected",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 0,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 0,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "limited",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": null,
+            "valid_points": 0,
+            "max_utilization_pct": null
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "supported",
+        "hourly_sampling_gap": "supported",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "unknown"
+      }
+    },
+    {
+      "id": "case-09",
+      "scenario": "partial_statistics",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 12,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 20,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "supported",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-10",
+      "scenario": "partial_hourly",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 12,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 20,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "supported",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-11",
+      "scenario": "observed_idle",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 0,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "supported"
+      }
+    },
+    {
+      "id": "case-12",
+      "scenario": "small_nonzero",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 0.02,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "supported"
+      }
+    },
+    {
+      "id": "case-13",
+      "scenario": "busy_device",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 80,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-14",
+      "scenario": "missing_usage",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "limited",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": null,
+            "valid_points": 0,
+            "max_utilization_pct": null
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "unknown"
+      }
+    },
+    {
+      "id": "case-15",
+      "scenario": "cohort_conflict",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 120
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 95
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 20,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "conflicting",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-16",
+      "scenario": "node_dropout",
+      "split": "development",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": -100,
+                "allocated_change_raw": 10
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 10
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 24,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 36,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 20,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "supported",
+        "business_allocation_change": "supported",
+        "local_history_gap": "supported",
+        "hourly_sampling_gap": "supported",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-17",
+      "scenario": "holdout_combined_gap_drop",
+      "split": "holdout",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": -300,
+                "allocated_change_raw": 45
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 45
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 9,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 18,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 80,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "supported",
+        "business_allocation_change": "supported",
+        "local_history_gap": "supported",
+        "hourly_sampling_gap": "supported",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-18",
+      "scenario": "holdout_sampling_only",
+      "split": "holdout",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 0,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "limited",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": null,
+            "valid_points": 0,
+            "max_utilization_pct": null
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "supported",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "unknown"
+      }
+    },
+    {
+      "id": "case-19",
+      "scenario": "holdout_units_and_gap",
+      "split": "holdout",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "limited",
+          "data": {
+            "units": {
+              "unit_verified": false
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 500,
+                "allocated_change_raw": 120
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 120
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 7,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 0,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 0.05,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "unknown",
+        "business_allocation_change": "unknown",
+        "local_history_gap": "supported",
+        "hourly_sampling_gap": "supported",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "supported"
+      }
+    },
+    {
+      "id": "case-20",
+      "scenario": "holdout_conflicting_contributors",
+      "split": "holdout",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": -60,
+                "allocated_change_raw": 70
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 45
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 25,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "supported",
+        "business_allocation_change": "conflicting",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-21",
+      "scenario": "holdout_memory_resident_activity",
+      "split": "holdout",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 200
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 200
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 60,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "supported",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "refuted"
+      }
+    },
+    {
+      "id": "case-22",
+      "scenario": "holdout_usage_and_gap",
+      "split": "holdout",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 20,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 8,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 0,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "refuted",
+        "business_allocation_change": "refuted",
+        "local_history_gap": "supported",
+        "hourly_sampling_gap": "supported",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "supported"
+      }
+    },
+    {
+      "id": "case-23",
+      "scenario": "holdout_growing_capacity",
+      "split": "holdout",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "yz",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "complete",
+          "data": {
+            "units": {
+              "unit_verified": true
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 300,
+                "allocated_change_raw": 150
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 150
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 60,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 60,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "complete",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": 0.5,
+            "valid_points": 60,
+            "max_utilization_pct": 90
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "supported",
+        "business_allocation_change": "supported",
+        "local_history_gap": "refuted",
+        "hourly_sampling_gap": "refuted",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "supported"
+      }
+    },
+    {
+      "id": "case-24",
+      "scenario": "holdout_all_unavailable",
+      "split": "holdout",
+      "synthetic": true,
+      "goal": "核查容量、业务分配、主机覆盖和整卡计算活动，区分缺口与源端数据丢失",
+      "cluster": "zw",
+      "evidence": {
+        "compare_cluster_windows": {
+          "status": "limited",
+          "data": {
+            "units": {
+              "unit_verified": false
+            },
+            "segment": "full",
+            "changes": [
+              {
+                "capacity_change_raw": 0,
+                "allocated_change_raw": 0
+              }
+            ]
+          }
+        },
+        "rank_allocation_changes": {
+          "status": "complete",
+          "data": {
+            "dimension": "namespace",
+            "segment": "full",
+            "cohort_allocated_change_raw": 0
+          }
+        },
+        "check_host_history_coverage": {
+          "status": "limited",
+          "data": {
+            "statistics_complete_observed_cohort_timestamps": 0,
+            "expected_grid_points": 60
+          }
+        },
+        "inspect_host_sync_status": {
+          "status": "limited",
+          "data": {
+            "hourly_point_complete": 0,
+            "hourly_expected": 60,
+            "source_retention_verified": false
+          }
+        },
+        "inspect_gpu_usage": {
+          "status": "limited",
+          "data": {
+            "entity_id": "synthetic-gpu",
+            "mean_utilization_pct": null,
+            "valid_points": 0,
+            "max_utilization_pct": null
+          }
+        }
+      },
+      "expected": {
+        "capacity_change": "unknown",
+        "business_allocation_change": "unknown",
+        "local_history_gap": "supported",
+        "hourly_sampling_gap": "supported",
+        "source_data_loss": "unknown",
+        "low_gpu_activity": "unknown"
+      }
+    }
+  ]
+}

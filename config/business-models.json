@@ -1,0 +1,325 @@
+{
+  "version": 1,
+  "models": [
+    {
+      "model_key": "demo-service-01-1",
+      "name": "演示业务 01",
+      "category": "演示类别 2",
+      "description": "",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "all",
+          "field": "pod_name",
+          "value": "demo-service-01-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-02-1",
+      "name": "演示业务 02",
+      "category": "演示类别 4",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [
+        "demo-version-02-1",
+        "demo-version-02-2"
+      ],
+      "selectors": [
+        {
+          "cluster": "all",
+          "field": "pod_name",
+          "value": "demo-service-02-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-03-1",
+      "name": "演示业务 03",
+      "category": "演示类别 4",
+      "description": "",
+      "model_names": [
+        "demo-version-03-1"
+      ],
+      "selectors": [
+        {
+          "cluster": "all",
+          "field": "pod_name",
+          "value": "demo-service-03-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-04-1",
+      "name": "演示业务 04",
+      "category": "演示类别 4",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "yz",
+          "field": "pod_name",
+          "value": "demo-service-04-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-05-1",
+      "name": "演示业务 05",
+      "category": "演示类别 1",
+      "description": "",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "yz",
+          "field": "pod_name",
+          "value": "demo-service-05-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-model-06",
+      "name": "演示业务 06",
+      "category": "演示类别 2",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "yz",
+          "field": "pod_name",
+          "value": "demo-service-06-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-07-1",
+      "name": "演示业务 07",
+      "category": "演示类别 2",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "yz",
+          "field": "pod_name",
+          "value": "demo-service-07-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-08-1",
+      "name": "演示业务 08",
+      "category": "演示类别 2",
+      "description": "",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "yz",
+          "field": "pod_name",
+          "value": "demo-service-08-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-09-1",
+      "name": "演示业务 09",
+      "category": "演示类别 2",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "yz",
+          "field": "pod_name",
+          "value": "demo-service-09-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-10-1",
+      "name": "演示业务 10",
+      "category": "演示类别 1",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "all",
+          "field": "pod_name",
+          "value": "demo-service-10-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-11-1",
+      "name": "演示业务 11",
+      "category": "演示类别 1",
+      "description": "",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "all",
+          "field": "pod_name",
+          "value": "demo-service-11-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-12-1",
+      "name": "演示业务 12",
+      "category": "演示类别 1",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "all",
+          "field": "pod_name",
+          "value": "demo-service-12-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-13-1",
+      "name": "演示业务 13",
+      "category": "演示类别 2",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "all",
+          "field": "pod_name",
+          "value": "demo-service-13-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-14-1",
+      "name": "演示业务 14",
+      "category": "演示类别 4",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "zw",
+          "field": "pod_name",
+          "value": "demo-service-14-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-15-1",
+      "name": "演示业务 15",
+      "category": "演示类别 4",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "zw",
+          "field": "pod_name",
+          "value": "demo-service-15-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-16-1",
+      "name": "演示业务 16",
+      "category": "演示类别 1",
+      "description": "",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "zw",
+          "field": "pod_name",
+          "value": "demo-service-16-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-model-17",
+      "name": "演示业务 17",
+      "category": "演示类别 2",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "zw",
+          "field": "pod_name",
+          "value": "demo-service-17-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-18-1",
+      "name": "演示业务 18",
+      "category": "演示类别 2",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "zw",
+          "field": "pod_name",
+          "value": "demo-service-18-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-19-1",
+      "name": "演示业务 19",
+      "category": "演示类别 2",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "zw",
+          "field": "pod_name",
+          "value": "demo-service-19-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-20-1",
+      "name": "演示业务 20",
+      "category": "演示类别 2",
+      "description": "",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "zw",
+          "field": "pod_name",
+          "value": "demo-service-20-1",
+          "match": "pod_prefix"
+        }
+      ]
+    },
+    {
+      "model_key": "demo-service-21-1",
+      "name": "演示业务 21",
+      "category": "演示类别 2",
+      "description": "演示归属配置，请在私有环境配置真实业务规则。",
+      "model_names": [],
+      "selectors": [
+        {
+          "cluster": "zw",
+          "field": "pod_name",
+          "value": "demo-service-21-1",
+          "match": "pod_prefix"
+        }
+      ]
+    }
+  ]
+}

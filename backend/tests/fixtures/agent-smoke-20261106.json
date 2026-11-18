@@ -1,0 +1,5453 @@
+{
+  "date": "2026-11-06",
+  "synthetic_only": true,
+  "production_validation": false,
+  "dataset_sha256": "e474596fb7cec2eef5b42907778bb1a22898aecf23af96c385782165160be14d",
+  "interpretation": "纯合成数据。旧失败、开发修复和剩余5个未使用留出一次试测分别记录。单次模型原始分数与Agent的服务端核验分数不能直接归因给规划；共同Verifier复核后新留出三组均5/5，尚无多轮收益证据。少量样本不证明生产泛化；Token缺失不是零费用。",
+  "runs": [
+    {
+      "run": "initial_holdout_smoke",
+      "dataset": "synthetic_v1",
+      "provider": "deepseek",
+      "production_validation": false,
+      "limitation": "scripted仅验证协议；少量DeepSeek结果不能作为生产或完整泛化结论。合成工具延迟不代表数据库性能。",
+      "results": [
+        {
+          "case_id": "case-17",
+          "split": "holdout",
+          "scenario": "holdout_combined_gap_drop",
+          "mode": "rules",
+          "provider": "scripted_protocol",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [],
+          "tool_calls": 5,
+          "model_calls": 0,
+          "elapsed_ms": 0.07,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [
+                "eval-3"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [
+                "eval-4"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-5"
+              ],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": -300,
+                    "allocated_change_raw": 45
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 45
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 9,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 18,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 80,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-17",
+          "split": "holdout",
+          "scenario": "holdout_combined_gap_drop",
+          "mode": "single_shot",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [],
+          "tool_calls": 5,
+          "model_calls": 1,
+          "elapsed_ms": 1468.38,
+          "token_usage": {
+            "prompt_tokens": 895,
+            "completion_tokens": 204,
+            "total_tokens": 1099
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "hypothesis": "capacity_change",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ]
+            },
+            {
+              "hypothesis": "business_allocation_change",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1",
+                "eval-2"
+              ]
+            },
+            {
+              "hypothesis": "local_history_gap",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3"
+              ]
+            },
+            {
+              "hypothesis": "hourly_sampling_gap",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "source_data_loss",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "low_gpu_activity",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": -300,
+                    "allocated_change_raw": 45
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 45
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 9,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 18,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 80,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-17",
+          "split": "holdout",
+          "scenario": "holdout_combined_gap_drop",
+          "mode": "agent",
+          "provider": "deepseek",
+          "task_success": false,
+          "correct_claims": 1,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [
+            "capacity_change",
+            "business_allocation_change",
+            "local_history_gap",
+            "hourly_sampling_gap",
+            "low_gpu_activity"
+          ],
+          "tool_calls": 0,
+          "model_calls": 1,
+          "elapsed_ms": 1436.05,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": []
+        },
+        {
+          "case_id": "case-18",
+          "split": "holdout",
+          "scenario": "holdout_sampling_only",
+          "mode": "rules",
+          "provider": "scripted_protocol",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [],
+          "tool_calls": 5,
+          "model_calls": 0,
+          "elapsed_ms": 0.05,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "zw",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-1"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-1"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [
+                "eval-3"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-4"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 0
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 0
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 0,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": null,
+                "valid_points": 0,
+                "max_utilization_pct": null
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-18",
+          "split": "holdout",
+          "scenario": "holdout_sampling_only",
+          "mode": "single_shot",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [],
+          "tool_calls": 5,
+          "model_calls": 1,
+          "elapsed_ms": 1199.06,
+          "token_usage": {
+            "prompt_tokens": 893,
+            "completion_tokens": 206,
+            "total_tokens": 1099
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "hypothesis": "capacity_change",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ]
+            },
+            {
+              "hypothesis": "business_allocation_change",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-2"
+              ]
+            },
+            {
+              "hypothesis": "local_history_gap",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3"
+              ]
+            },
+            {
+              "hypothesis": "hourly_sampling_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "source_data_loss",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-4",
+                "eval-3"
+              ]
+            },
+            {
+              "hypothesis": "low_gpu_activity",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-5"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 0
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 0
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 0,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": null,
+                "valid_points": 0,
+                "max_utilization_pct": null
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-18",
+          "split": "holdout",
+          "scenario": "holdout_sampling_only",
+          "mode": "agent",
+          "provider": "deepseek",
+          "task_success": false,
+          "correct_claims": 2,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [
+            "capacity_change",
+            "business_allocation_change",
+            "local_history_gap",
+            "hourly_sampling_gap"
+          ],
+          "tool_calls": 0,
+          "model_calls": 1,
+          "elapsed_ms": 1446.4,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "zw",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": []
+        },
+        {
+          "case_id": "case-19",
+          "split": "holdout",
+          "scenario": "holdout_units_and_gap",
+          "mode": "rules",
+          "provider": "scripted_protocol",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [],
+          "tool_calls": 5,
+          "model_calls": 0,
+          "elapsed_ms": 0.04,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [
+                "eval-3"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [
+                "eval-4"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [
+                "eval-5"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "units": {
+                  "unit_verified": false
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 500,
+                    "allocated_change_raw": 120
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 120
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 7,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 0,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 0.05,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-19",
+          "split": "holdout",
+          "scenario": "holdout_units_and_gap",
+          "mode": "single_shot",
+          "provider": "deepseek",
+          "task_success": false,
+          "correct_claims": 4,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [
+            "business_allocation_change",
+            "low_gpu_activity"
+          ],
+          "tool_calls": 5,
+          "model_calls": 1,
+          "elapsed_ms": 1183.4,
+          "token_usage": {
+            "prompt_tokens": 897,
+            "completion_tokens": 199,
+            "total_tokens": 1096
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "hypothesis": "capacity_change",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-1"
+              ]
+            },
+            {
+              "hypothesis": "business_allocation_change",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-2"
+              ]
+            },
+            {
+              "hypothesis": "local_history_gap",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3"
+              ]
+            },
+            {
+              "hypothesis": "hourly_sampling_gap",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "source_data_loss",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "low_gpu_activity",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "units": {
+                  "unit_verified": false
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 500,
+                    "allocated_change_raw": 120
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 120
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 7,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 0,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 0.05,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-19",
+          "split": "holdout",
+          "scenario": "holdout_units_and_gap",
+          "mode": "agent",
+          "provider": "deepseek",
+          "task_success": false,
+          "correct_claims": 3,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [
+            "local_history_gap",
+            "hourly_sampling_gap",
+            "low_gpu_activity"
+          ],
+          "tool_calls": 0,
+          "model_calls": 1,
+          "elapsed_ms": 1476.71,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": []
+        }
+      ]
+    },
+    {
+      "run": "development_diagnostic",
+      "dataset": "synthetic_v1",
+      "provider": "deepseek",
+      "production_validation": false,
+      "limitation": "scripted仅验证协议；少量DeepSeek结果不能作为生产或完整泛化结论。合成工具延迟不代表数据库性能。",
+      "results": [
+        {
+          "case_id": "case-01",
+          "split": "development",
+          "scenario": "allocation_increase",
+          "mode": "rules",
+          "provider": "scripted_protocol",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [],
+          "tool_calls": 5,
+          "model_calls": 0,
+          "elapsed_ms": 0.06,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-1"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-4"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-5"
+              ],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 120
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 120
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 50,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-01",
+          "split": "development",
+          "scenario": "allocation_increase",
+          "mode": "single_shot",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [],
+          "tool_calls": 5,
+          "model_calls": 1,
+          "elapsed_ms": 1131.23,
+          "token_usage": {
+            "prompt_tokens": 895,
+            "completion_tokens": 212,
+            "total_tokens": 1107
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "hypothesis": "capacity_change",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ]
+            },
+            {
+              "hypothesis": "business_allocation_change",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1",
+                "eval-2"
+              ]
+            },
+            {
+              "hypothesis": "local_history_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ]
+            },
+            {
+              "hypothesis": "hourly_sampling_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4",
+                "eval-3"
+              ]
+            },
+            {
+              "hypothesis": "source_data_loss",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "low_gpu_activity",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 120
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 120
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 50,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-01",
+          "split": "development",
+          "scenario": "allocation_increase",
+          "mode": "agent",
+          "provider": "deepseek",
+          "task_success": false,
+          "correct_claims": 1,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "missing_or_wrong_states": [
+            "capacity_change",
+            "business_allocation_change",
+            "local_history_gap",
+            "hourly_sampling_gap",
+            "low_gpu_activity"
+          ],
+          "tool_calls": 0,
+          "model_calls": 1,
+          "elapsed_ms": 957.19,
+          "token_usage": {
+            "prompt_tokens": 677,
+            "completion_tokens": 145,
+            "total_tokens": 822
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": []
+        }
+      ]
+    },
+    {
+      "run": "after_adapter_development",
+      "dataset": "synthetic_v1",
+      "provider": "deepseek",
+      "production_validation": false,
+      "agent_includes_rule_supplement": false,
+      "limitation": "scripted仅验证协议；少量DeepSeek结果不能作为生产或完整泛化结论。合成工具延迟不代表数据库性能。",
+      "results": [
+        {
+          "case_id": "case-01",
+          "split": "development",
+          "scenario": "allocation_increase",
+          "mode": "rules",
+          "provider": "scripted_protocol",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 0,
+          "elapsed_ms": 0.08,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-1"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-4"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-5"
+              ],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 120
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 120
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 50,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-01",
+          "split": "development",
+          "scenario": "allocation_increase",
+          "mode": "single_shot",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 1,
+          "elapsed_ms": 999.98,
+          "token_usage": {
+            "prompt_tokens": 895,
+            "completion_tokens": 207,
+            "total_tokens": 1102
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "hypothesis": "capacity_change",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ]
+            },
+            {
+              "hypothesis": "business_allocation_change",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1",
+                "eval-2"
+              ]
+            },
+            {
+              "hypothesis": "local_history_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ]
+            },
+            {
+              "hypothesis": "hourly_sampling_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "source_data_loss",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "low_gpu_activity",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 120
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 120
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 50,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-01",
+          "split": "development",
+          "scenario": "allocation_increase",
+          "mode": "agent",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": "model_finished",
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 3,
+          "elapsed_ms": 6275.0,
+          "token_usage": {
+            "prompt_tokens": 3168,
+            "completion_tokens": 875,
+            "total_tokens": 4043
+          },
+          "billing_cost": null,
+          "steps": [
+            {
+              "actor": "model",
+              "tool": "batch_budget",
+              "deferred_calls": 1,
+              "executed": false
+            },
+            {
+              "actor": "model",
+              "tool": "compare_cluster_windows",
+              "evidence_id": "eval-1",
+              "cached": false,
+              "elapsed_ms": 0.01
+            },
+            {
+              "actor": "model",
+              "tool": "rank_allocation_changes",
+              "evidence_id": "eval-2",
+              "cached": false,
+              "elapsed_ms": 0.01
+            },
+            {
+              "actor": "model",
+              "tool": "check_host_history_coverage",
+              "evidence_id": "eval-3",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_host_sync_status",
+              "evidence_id": "eval-4",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_gpu_usage",
+              "evidence_id": "eval-5",
+              "cached": false,
+              "elapsed_ms": 0.0
+            }
+          ],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-1"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-4"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-5"
+              ],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 120
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 120
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 50,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": "fresh_holdout_after_adapter",
+      "dataset": "synthetic_v1",
+      "provider": "deepseek",
+      "production_validation": false,
+      "agent_includes_rule_supplement": false,
+      "limitation": "scripted仅验证协议；少量DeepSeek结果不能作为生产或完整泛化结论。合成工具延迟不代表数据库性能。",
+      "results": [
+        {
+          "case_id": "case-20",
+          "split": "holdout",
+          "scenario": "holdout_conflicting_contributors",
+          "mode": "rules",
+          "provider": "scripted_protocol",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 0,
+          "elapsed_ms": 0.08,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "zw",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "conflicting",
+              "evidence_ids": [
+                "eval-1",
+                "eval-2"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [
+                "eval-2"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释",
+                "跨维度贡献不一致，不能完成业务归因"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-4"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-5"
+              ],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": -60,
+                    "allocated_change_raw": 70
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 45
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 25,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-20",
+          "split": "holdout",
+          "scenario": "holdout_conflicting_contributors",
+          "mode": "single_shot",
+          "provider": "deepseek",
+          "task_success": false,
+          "correct_claims": 4,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 2,
+          "missing_or_wrong_states": [
+            "business_allocation_change",
+            "low_gpu_activity"
+          ],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 1,
+          "elapsed_ms": 991.19,
+          "token_usage": {
+            "prompt_tokens": 895,
+            "completion_tokens": 205,
+            "total_tokens": 1100
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "hypothesis": "capacity_change",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ]
+            },
+            {
+              "hypothesis": "business_allocation_change",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1",
+                "eval-2"
+              ]
+            },
+            {
+              "hypothesis": "local_history_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ]
+            },
+            {
+              "hypothesis": "hourly_sampling_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "source_data_loss",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "low_gpu_activity",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-5"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": -60,
+                    "allocated_change_raw": 70
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 45
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 25,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-20",
+          "split": "holdout",
+          "scenario": "holdout_conflicting_contributors",
+          "mode": "agent",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": "model_finished",
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 3,
+          "elapsed_ms": 7555.77,
+          "token_usage": {
+            "prompt_tokens": 3021,
+            "completion_tokens": 1079,
+            "total_tokens": 4100
+          },
+          "billing_cost": null,
+          "steps": [
+            {
+              "actor": "model",
+              "tool": "compare_cluster_windows",
+              "evidence_id": "eval-1",
+              "cached": false,
+              "elapsed_ms": 0.01
+            },
+            {
+              "actor": "model",
+              "tool": "rank_allocation_changes",
+              "evidence_id": "eval-2",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "check_host_history_coverage",
+              "evidence_id": "eval-3",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_host_sync_status",
+              "evidence_id": "eval-4",
+              "cached": false,
+              "elapsed_ms": 0.01
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_gpu_usage",
+              "evidence_id": "eval-5",
+              "cached": false,
+              "elapsed_ms": 0.0
+            }
+          ],
+          "predictions": [
+            {
+              "cluster": "zw",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "conflicting",
+              "evidence_ids": [
+                "eval-1",
+                "eval-2"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [
+                "eval-2"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释",
+                "跨维度贡献不一致，不能完成业务归因"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-4"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-5"
+              ],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": -60,
+                    "allocated_change_raw": 70
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 45
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 25,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-21",
+          "split": "holdout",
+          "scenario": "holdout_memory_resident_activity",
+          "mode": "rules",
+          "provider": "scripted_protocol",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 0,
+          "elapsed_ms": 0.07,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-1"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-4"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-5"
+              ],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 200
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 200
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 60,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-21",
+          "split": "holdout",
+          "scenario": "holdout_memory_resident_activity",
+          "mode": "single_shot",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 1,
+          "elapsed_ms": 1353.82,
+          "token_usage": {
+            "prompt_tokens": 895,
+            "completion_tokens": 207,
+            "total_tokens": 1102
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "hypothesis": "capacity_change",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ]
+            },
+            {
+              "hypothesis": "business_allocation_change",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1",
+                "eval-2"
+              ]
+            },
+            {
+              "hypothesis": "local_history_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ]
+            },
+            {
+              "hypothesis": "hourly_sampling_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "source_data_loss",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "low_gpu_activity",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 200
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 200
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 60,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-21",
+          "split": "holdout",
+          "scenario": "holdout_memory_resident_activity",
+          "mode": "agent",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": "model_finished",
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 3,
+          "elapsed_ms": 7125.87,
+          "token_usage": {
+            "prompt_tokens": 3179,
+            "completion_tokens": 988,
+            "total_tokens": 4167
+          },
+          "billing_cost": null,
+          "steps": [
+            {
+              "actor": "model",
+              "tool": "batch_budget",
+              "deferred_calls": 1,
+              "executed": false
+            },
+            {
+              "actor": "model",
+              "tool": "compare_cluster_windows",
+              "evidence_id": "eval-1",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "rank_allocation_changes",
+              "evidence_id": "eval-2",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "check_host_history_coverage",
+              "evidence_id": "eval-3",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_gpu_usage",
+              "evidence_id": "eval-4",
+              "cached": false,
+              "elapsed_ms": 0.01
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_host_sync_status",
+              "evidence_id": "eval-5",
+              "cached": false,
+              "elapsed_ms": 0.0
+            }
+          ],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-1"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-5"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-4"
+              ],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 200
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 200
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 60,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-22",
+          "split": "holdout",
+          "scenario": "holdout_usage_and_gap",
+          "mode": "rules",
+          "provider": "scripted_protocol",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 0,
+          "elapsed_ms": 0.05,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "zw",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-1"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-1"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [
+                "eval-3"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [
+                "eval-4"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [
+                "eval-5"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 0
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 0
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 20,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 8,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 0,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-22",
+          "split": "holdout",
+          "scenario": "holdout_usage_and_gap",
+          "mode": "single_shot",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 1,
+          "elapsed_ms": 1260.9,
+          "token_usage": {
+            "prompt_tokens": 895,
+            "completion_tokens": 210,
+            "total_tokens": 1105
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "hypothesis": "capacity_change",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1"
+              ]
+            },
+            {
+              "hypothesis": "business_allocation_change",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-1",
+                "eval-2"
+              ]
+            },
+            {
+              "hypothesis": "local_history_gap",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "hourly_sampling_gap",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "source_data_loss",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "low_gpu_activity",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-5"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 0
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 0
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 20,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 8,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 0,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-22",
+          "split": "holdout",
+          "scenario": "holdout_usage_and_gap",
+          "mode": "agent",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": "model_finished",
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 3,
+          "elapsed_ms": 6485.14,
+          "token_usage": {
+            "prompt_tokens": 2883,
+            "completion_tokens": 886,
+            "total_tokens": 3769
+          },
+          "billing_cost": null,
+          "steps": [
+            {
+              "actor": "model",
+              "tool": "rank_allocation_changes",
+              "evidence_id": "eval-1",
+              "cached": false,
+              "elapsed_ms": 0.01
+            },
+            {
+              "actor": "model",
+              "tool": "check_host_history_coverage",
+              "evidence_id": "eval-2",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "compare_cluster_windows",
+              "evidence_id": "eval-3",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_host_sync_status",
+              "evidence_id": "eval-4",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_gpu_usage",
+              "evidence_id": "eval-5",
+              "cached": false,
+              "elapsed_ms": 0.0
+            }
+          ],
+          "predictions": [
+            {
+              "cluster": "zw",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-2"
+              ],
+              "supporting_evidence_ids": [
+                "eval-2"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [
+                "eval-4"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-2",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [
+                "eval-5"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 0
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 20,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 0
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 8,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 0,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-23",
+          "split": "holdout",
+          "scenario": "holdout_growing_capacity",
+          "mode": "rules",
+          "provider": "scripted_protocol",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 0,
+          "elapsed_ms": 0.07,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-4"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [
+                "eval-5"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 300,
+                    "allocated_change_raw": 150
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 150
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 0.5,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-23",
+          "split": "holdout",
+          "scenario": "holdout_growing_capacity",
+          "mode": "single_shot",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 1,
+          "elapsed_ms": 1364.37,
+          "token_usage": {
+            "prompt_tokens": 897,
+            "completion_tokens": 210,
+            "total_tokens": 1107
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "hypothesis": "capacity_change",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ]
+            },
+            {
+              "hypothesis": "business_allocation_change",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1",
+                "eval-2"
+              ]
+            },
+            {
+              "hypothesis": "local_history_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ]
+            },
+            {
+              "hypothesis": "hourly_sampling_gap",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "source_data_loss",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "low_gpu_activity",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-5"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 300,
+                    "allocated_change_raw": 150
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 150
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 0.5,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-23",
+          "split": "holdout",
+          "scenario": "holdout_growing_capacity",
+          "mode": "agent",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": "model_finished",
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 3,
+          "elapsed_ms": 7760.38,
+          "token_usage": {
+            "prompt_tokens": 3288,
+            "completion_tokens": 1131,
+            "total_tokens": 4419
+          },
+          "billing_cost": null,
+          "steps": [
+            {
+              "actor": "model",
+              "tool": "batch_budget",
+              "deferred_calls": 1,
+              "executed": false
+            },
+            {
+              "actor": "model",
+              "tool": "compare_cluster_windows",
+              "evidence_id": "eval-1",
+              "cached": false,
+              "elapsed_ms": 0.01
+            },
+            {
+              "actor": "model",
+              "tool": "rank_allocation_changes",
+              "evidence_id": "eval-2",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "check_host_history_coverage",
+              "evidence_id": "eval-3",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_host_sync_status",
+              "evidence_id": "eval-4",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_gpu_usage",
+              "evidence_id": "eval-5",
+              "cached": false,
+              "elapsed_ms": 0.0
+            }
+          ],
+          "predictions": [
+            {
+              "cluster": "yz",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-1"
+              ],
+              "supporting_evidence_ids": [
+                "eval-1"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-3"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "refuted",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [
+                "eval-4"
+              ],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "yz",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-5"
+              ],
+              "supporting_evidence_ids": [
+                "eval-5"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "units": {
+                  "unit_verified": true
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 300,
+                    "allocated_change_raw": 150
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 150
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 60,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "yz",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 60,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "yz",
+              "status": "complete",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": 0.5,
+                "valid_points": 60,
+                "max_utilization_pct": 90
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-24",
+          "split": "holdout",
+          "scenario": "holdout_all_unavailable",
+          "mode": "rules",
+          "provider": "scripted_protocol",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 0,
+          "elapsed_ms": 0.05,
+          "token_usage": {},
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "cluster": "zw",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [
+                "eval-3"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [
+                "eval-4"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "units": {
+                  "unit_verified": false
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 0
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 0
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 0,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 0,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": null,
+                "valid_points": 0,
+                "max_utilization_pct": null
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-24",
+          "split": "holdout",
+          "scenario": "holdout_all_unavailable",
+          "mode": "single_shot",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": null,
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 1,
+          "elapsed_ms": 1535.1,
+          "token_usage": {
+            "prompt_tokens": 893,
+            "completion_tokens": 213,
+            "total_tokens": 1106
+          },
+          "billing_cost": null,
+          "steps": [],
+          "predictions": [
+            {
+              "hypothesis": "capacity_change",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-1"
+              ]
+            },
+            {
+              "hypothesis": "business_allocation_change",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-1",
+                "eval-2"
+              ]
+            },
+            {
+              "hypothesis": "local_history_gap",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "hourly_sampling_gap",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "source_data_loss",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-4"
+              ]
+            },
+            {
+              "hypothesis": "low_gpu_activity",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-5"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "units": {
+                  "unit_verified": false
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 0
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 0
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 0,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 0,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": null,
+                "valid_points": 0,
+                "max_utilization_pct": null
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-24",
+          "split": "holdout",
+          "scenario": "holdout_all_unavailable",
+          "mode": "agent",
+          "provider": "deepseek",
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [],
+          "stop_reason": "model_finished",
+          "failure_code": null,
+          "tool_calls": 5,
+          "model_calls": 3,
+          "elapsed_ms": 8247.63,
+          "token_usage": {
+            "prompt_tokens": 3338,
+            "completion_tokens": 1140,
+            "total_tokens": 4478
+          },
+          "billing_cost": null,
+          "steps": [
+            {
+              "actor": "model",
+              "tool": "batch_budget",
+              "deferred_calls": 2,
+              "executed": false
+            },
+            {
+              "actor": "model",
+              "tool": "compare_cluster_windows",
+              "evidence_id": "eval-1",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "rank_allocation_changes",
+              "evidence_id": "eval-2",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "check_host_history_coverage",
+              "evidence_id": "eval-3",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_host_sync_status",
+              "evidence_id": "eval-4",
+              "cached": false,
+              "elapsed_ms": 0.0
+            },
+            {
+              "actor": "model",
+              "tool": "inspect_gpu_usage",
+              "evidence_id": "eval-5",
+              "cached": false,
+              "elapsed_ms": 0.0
+            }
+          ],
+          "predictions": [
+            {
+              "cluster": "zw",
+              "hypothesis": "capacity_change",
+              "title": "监控容量发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "business_allocation_change",
+              "title": "业务分配额度发生变化",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "local_history_gap",
+              "title": "本地区间统计存在覆盖缺口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-3"
+              ],
+              "supporting_evidence_ids": [
+                "eval-3"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "hourly_sampling_gap",
+              "title": "本地小时采样尚未覆盖完整窗口",
+              "state": "supported",
+              "evidence_ids": [
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [
+                "eval-4"
+              ],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "相关变化不能证明因果；分配额度、物理显存与实际利用率分别解释"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "source_data_loss",
+              "title": "Prometheus源端历史丢失",
+              "state": "unknown",
+              "evidence_ids": [
+                "eval-3",
+                "eval-4"
+              ],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "尚无源端历史覆盖证据；数据库缺口不能证明Prometheus数据丢失"
+              ]
+            },
+            {
+              "cluster": "zw",
+              "hypothesis": "low_gpu_activity",
+              "title": "整卡平均计算活动偏低",
+              "state": "unknown",
+              "evidence_ids": [],
+              "supporting_evidence_ids": [],
+              "counter_evidence_ids": [],
+              "limitations": [
+                "平均值偏低不能证明持续低效、任务浪费或额度可回收；须复核尖峰、覆盖及生命周期"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "id": "eval-1",
+              "tool": "compare_cluster_windows",
+              "label": "compare_cluster_windows",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "units": {
+                  "unit_verified": false
+                },
+                "segment": "full",
+                "changes": [
+                  {
+                    "capacity_change_raw": 0,
+                    "allocated_change_raw": 0
+                  }
+                ]
+              }
+            },
+            {
+              "id": "eval-2",
+              "tool": "rank_allocation_changes",
+              "label": "rank_allocation_changes",
+              "cluster": "zw",
+              "status": "complete",
+              "data": {
+                "dimension": "namespace",
+                "segment": "full",
+                "cohort_allocated_change_raw": 0
+              }
+            },
+            {
+              "id": "eval-3",
+              "tool": "check_host_history_coverage",
+              "label": "check_host_history_coverage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "statistics_complete_observed_cohort_timestamps": 0,
+                "expected_grid_points": 60
+              }
+            },
+            {
+              "id": "eval-4",
+              "tool": "inspect_host_sync_status",
+              "label": "inspect_host_sync_status",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "hourly_point_complete": 0,
+                "hourly_expected": 60,
+                "source_retention_verified": false
+              }
+            },
+            {
+              "id": "eval-5",
+              "tool": "inspect_gpu_usage",
+              "label": "inspect_gpu_usage",
+              "cluster": "zw",
+              "status": "limited",
+              "data": {
+                "entity_id": "synthetic-gpu",
+                "mean_utilization_pct": null,
+                "valid_points": 0,
+                "max_utilization_pct": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "same_evidence_verifier_audit": {
+    "posthoc": true,
+    "note": "保留原模型输出与原评分，不修改冻结期望；此列只统一复核已取得证据，不能把Verifier收益当多轮规划收益。",
+    "results": [
+      {
+        "run": "initial_holdout_smoke",
+        "case_id": "case-17",
+        "mode": "rules",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "initial_holdout_smoke",
+        "case_id": "case-17",
+        "mode": "single_shot",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "initial_holdout_smoke",
+        "case_id": "case-17",
+        "mode": "agent",
+        "score": {
+          "task_success": false,
+          "correct_claims": 1,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [
+            "capacity_change",
+            "business_allocation_change",
+            "local_history_gap",
+            "hourly_sampling_gap",
+            "low_gpu_activity"
+          ]
+        }
+      },
+      {
+        "run": "initial_holdout_smoke",
+        "case_id": "case-18",
+        "mode": "rules",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "initial_holdout_smoke",
+        "case_id": "case-18",
+        "mode": "single_shot",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "initial_holdout_smoke",
+        "case_id": "case-18",
+        "mode": "agent",
+        "score": {
+          "task_success": false,
+          "correct_claims": 2,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [
+            "capacity_change",
+            "business_allocation_change",
+            "local_history_gap",
+            "hourly_sampling_gap"
+          ]
+        }
+      },
+      {
+        "run": "initial_holdout_smoke",
+        "case_id": "case-19",
+        "mode": "rules",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "initial_holdout_smoke",
+        "case_id": "case-19",
+        "mode": "single_shot",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "initial_holdout_smoke",
+        "case_id": "case-19",
+        "mode": "agent",
+        "score": {
+          "task_success": false,
+          "correct_claims": 3,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [
+            "local_history_gap",
+            "hourly_sampling_gap",
+            "low_gpu_activity"
+          ]
+        }
+      },
+      {
+        "run": "development_diagnostic",
+        "case_id": "case-01",
+        "mode": "rules",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "development_diagnostic",
+        "case_id": "case-01",
+        "mode": "single_shot",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "development_diagnostic",
+        "case_id": "case-01",
+        "mode": "agent",
+        "score": {
+          "task_success": false,
+          "correct_claims": 1,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": [
+            "capacity_change",
+            "business_allocation_change",
+            "local_history_gap",
+            "hourly_sampling_gap",
+            "low_gpu_activity"
+          ]
+        }
+      },
+      {
+        "run": "after_adapter_development",
+        "case_id": "case-01",
+        "mode": "rules",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "after_adapter_development",
+        "case_id": "case-01",
+        "mode": "single_shot",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "after_adapter_development",
+        "case_id": "case-01",
+        "mode": "agent",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-20",
+        "mode": "rules",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-20",
+        "mode": "single_shot",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-20",
+        "mode": "agent",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-21",
+        "mode": "rules",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-21",
+        "mode": "single_shot",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-21",
+        "mode": "agent",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-22",
+        "mode": "rules",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-22",
+        "mode": "single_shot",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-22",
+        "mode": "agent",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-23",
+        "mode": "rules",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-23",
+        "mode": "single_shot",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-23",
+        "mode": "agent",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-24",
+        "mode": "rules",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-24",
+        "mode": "single_shot",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      },
+      {
+        "run": "fresh_holdout_after_adapter",
+        "case_id": "case-24",
+        "mode": "agent",
+        "score": {
+          "task_success": true,
+          "correct_claims": 6,
+          "expected_claims": 6,
+          "reference_validity": true,
+          "unfounded_claims": 0,
+          "missing_or_wrong_states": []
+        }
+      }
+    ]
+  }
+}

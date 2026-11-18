@@ -1,0 +1,234 @@
+{
+  "yz": [
+    {
+      "node": "yz-demo-node-01",
+      "uuid": "GPU-DEMO-yz-00000001",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "model-serving",
+          "pod": "model-serving-demo-worker-01",
+          "value": 18000
+        }
+      ]
+    },
+    {
+      "node": "yz-demo-node-01",
+      "uuid": "GPU-DEMO-yz-00000002",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "research-lab",
+          "pod": "research-lab-demo-worker-02",
+          "value": 16000
+        }
+      ]
+    },
+    {
+      "node": "yz-demo-node-01",
+      "uuid": "GPU-DEMO-yz-00000003",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "data-platform",
+          "pod": "data-platform-demo-worker-03",
+          "value": 12000
+        }
+      ]
+    },
+    {
+      "node": "yz-demo-node-01",
+      "uuid": "GPU-DEMO-yz-00000004",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "model-serving",
+          "pod": "model-serving-demo-worker-04",
+          "value": 21000
+        }
+      ]
+    },
+    {
+      "node": "yz-demo-node-02",
+      "uuid": "GPU-DEMO-yz-00000005",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "research-lab",
+          "pod": "research-lab-demo-worker-05",
+          "value": 6000
+        }
+      ]
+    },
+    {
+      "node": "yz-demo-node-02",
+      "uuid": "GPU-DEMO-yz-00000006",
+      "capacity": 24000,
+      "allocations": []
+    },
+    {
+      "node": "yz-demo-node-02",
+      "uuid": "GPU-DEMO-yz-00000007",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "model-serving",
+          "pod": "model-serving-demo-worker-07",
+          "value": 18000
+        }
+      ]
+    },
+    {
+      "node": "yz-demo-node-02",
+      "uuid": "GPU-DEMO-yz-00000008",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "research-lab",
+          "pod": "research-lab-demo-worker-08",
+          "value": 16000
+        }
+      ]
+    },
+    {
+      "node": "yz-demo-node-03",
+      "uuid": "GPU-DEMO-yz-00000009",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "data-platform",
+          "pod": "data-platform-demo-worker-09",
+          "value": 12000
+        }
+      ]
+    },
+    {
+      "node": "yz-demo-node-03",
+      "uuid": "GPU-DEMO-yz-00000010",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "model-serving",
+          "pod": "model-serving-demo-worker-10",
+          "value": 21000
+        }
+      ]
+    },
+    {
+      "node": "yz-demo-node-03",
+      "uuid": "GPU-DEMO-yz-00000011",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "research-lab",
+          "pod": "research-lab-demo-worker-11",
+          "value": 6000
+        }
+      ]
+    },
+    {
+      "node": "yz-demo-node-03",
+      "uuid": "GPU-DEMO-yz-00000012",
+      "capacity": 24000,
+      "allocations": []
+    }
+  ],
+  "zw": [
+    {
+      "node": "zw-demo-node-01",
+      "uuid": "GPU-DEMO-zw-00000001",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "model-serving",
+          "pod": "model-serving-demo-worker-01",
+          "value": 8000
+        }
+      ]
+    },
+    {
+      "node": "zw-demo-node-01",
+      "uuid": "GPU-DEMO-zw-00000002",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "research-lab",
+          "pod": "research-lab-demo-worker-02",
+          "value": 10000
+        }
+      ]
+    },
+    {
+      "node": "zw-demo-node-01",
+      "uuid": "GPU-DEMO-zw-00000003",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "data-platform",
+          "pod": "data-platform-demo-worker-03",
+          "value": 4000
+        }
+      ]
+    },
+    {
+      "node": "zw-demo-node-01",
+      "uuid": "GPU-DEMO-zw-00000004",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "model-serving",
+          "pod": "model-serving-demo-worker-04",
+          "value": 16000
+        }
+      ]
+    },
+    {
+      "node": "zw-demo-node-02",
+      "uuid": "GPU-DEMO-zw-00000005",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "research-lab",
+          "pod": "research-lab-demo-worker-05",
+          "value": 8000
+        }
+      ]
+    },
+    {
+      "node": "zw-demo-node-02",
+      "uuid": "GPU-DEMO-zw-00000006",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "data-platform",
+          "pod": "data-platform-demo-worker-06",
+          "value": 10000
+        }
+      ]
+    },
+    {
+      "node": "zw-demo-node-02",
+      "uuid": "GPU-DEMO-zw-00000007",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "model-serving",
+          "pod": "model-serving-demo-worker-07",
+          "value": 4000
+        }
+      ]
+    },
+    {
+      "node": "zw-demo-node-02",
+      "uuid": "GPU-DEMO-zw-00000008",
+      "capacity": 24000,
+      "allocations": [
+        {
+          "namespace": "research-lab",
+          "pod": "research-lab-demo-worker-08",
+          "value": 16000
+        }
+      ]
+    }
+  ]
+}
